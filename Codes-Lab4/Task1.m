@@ -1,10 +1,11 @@
 % Source Coding 
 % Task 1
 clear all; close all; clc;
-addpath("library_p\");
+addpath("library_p/");
 
 % Load the input image
-lorem_img = imread('lorem_img.png');
+lorem_img = transpose(imread('lorem_img.png'));
+
  
 % display the raw image
 figure(1); clf;
@@ -16,8 +17,8 @@ run_length_code = runlength_encode(lorem_img);
 % convert the binary array into an decimal array of run lengths
 runs = bin2decArray(run_length_code);
 
-size_raw_data = length(lorem_img(:))
-size_run_length = length(run_length_code)
+size_raw_data = length(lorem_img(:));
+size_run_length = length(run_length_code);
 
 size_huffman = [];
 dict = [1,0];
@@ -29,3 +30,13 @@ for i=1:length(dict)
     size_huffman = [ size_huffman length(huffman_encode(runs,dict(i)))];
 end
 size_huffman
+
+
+% Display lengths
+fprintf('Raw image encoding length: %d bits\n', size_raw_data);
+fprintf('Run-length encoding length: %d bits\n', size_run_length);
+
+% Display Huffman lengths for both dictionary options
+for i = 1:length(dict)
+    fprintf('Huffman encoding length (dict = %d): %d bits\n', dict(i), size_huffman(i));
+end
